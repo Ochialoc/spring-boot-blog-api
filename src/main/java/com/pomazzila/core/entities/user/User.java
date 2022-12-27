@@ -3,6 +3,10 @@ package com.pomazzila.core.entities.user;
 import java.time.Instant;
 import java.util.UUID;
 
+import com.pomazzila.core.entities.user.exceptions.InvalidLongUsernameException;
+import com.pomazzila.core.entities.user.exceptions.InvalidNullUsernameException;
+import com.pomazzila.core.entities.user.exceptions.InvalidShortUsernameException;
+
 public class User {
 	private UUID id;
 	private String username;
@@ -35,6 +39,18 @@ public class User {
         final var now = Instant.now();
         return new User(id, username, email, password, now, now, null);
     }
+	
+	public void validate() {
+	    if (username == null) {
+	      throw new InvalidNullUsernameException();
+	    }
+	    if (username.trim().length() < 3) {
+	    	throw new InvalidShortUsernameException();
+	    }
+	    if (username.trim().length() > 64) {
+	    	throw new InvalidLongUsernameException();
+	    }
+	  }
 
 	public String getId() {
 		return id.toString().toLowerCase();
