@@ -16,8 +16,8 @@ public class User {
 	private Instant deletedAt;
 	
 	private final String NULL_USERNAME_ERROR_MESSAGE = "Username should not be null";
-	private final String SHORT_USERNAME_ERROR_MESSAGE = "Username should not be less than 3 characteres";
-	private final String LONG_USERNAME_ERROR_MESSAGE = "Username should not be longer than 64 characters";
+	private final String SHORT_USERNAME_ERROR_MESSAGE = "Username should not be less than 3 characteres long";
+	private final String LONG_USERNAME_ERROR_MESSAGE = "Username should not be longer than 64 characters long";
 	
 	private User(
             final UUID id,

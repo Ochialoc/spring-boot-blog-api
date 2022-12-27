@@ -49,7 +49,7 @@ public class UserTest {
 		String username = " a ";
 		String email = "pocmazzila@gmail.com";
 		String password = "password";
-		String expectedErrorMessage = "Username should not be less than 3 characteres";
+		String expectedErrorMessage = "Username should not be less than 3 characteres long";
 		
 		User newUser = User.newUser(username, email, password);
 		
@@ -66,7 +66,7 @@ public class UserTest {
 		String username = "A really long name with lots of characters that just keep going on";
 		String email = "pocmazzila@gmail.com";
 		String password = "password";
-		String expectedErrorMessage = "Username should not be longer than 64 characters";
+		String expectedErrorMessage = "Username should not be longer than 64 characters long";
         
         User newUser = User.newUser(username, email, password);
         
