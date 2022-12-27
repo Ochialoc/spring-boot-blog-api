@@ -1,11 +1,10 @@
 package com.pomazzila.core.entities.user;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.UUID;
 
-import com.pomazzila.core.entities.user.exceptions.InvalidLongUsernameException;
-import com.pomazzila.core.entities.user.exceptions.InvalidNullUsernameException;
-import com.pomazzila.core.entities.user.exceptions.InvalidShortUsernameException;
+import com.pomazzila.core.entities.user.exceptions.InvalidUserCreationParametersException;
 
 public class User {
 	private UUID id;
@@ -15,6 +14,10 @@ public class User {
 	private Instant createdAt;
 	private Instant updatedAt;
 	private Instant deletedAt;
+	
+	private final String NULL_USERNAME_ERROR_MESSAGE = "Username should not be null";
+	private final String SHORT_USERNAME_ERROR_MESSAGE = "Username should not be less than 3 characteres";
+	private final String LONG_USERNAME_ERROR_MESSAGE = "Username should not be longer than 64 characters";
 	
 	private User(
             final UUID id,
@@ -41,14 +44,16 @@ public class User {
     }
 	
 	public void validate() {
+		ArrayList <String> errors = new ArrayList<String>();
 	    if (username == null) {
-	      throw new InvalidNullUsernameException();
+	        errors.add(NULL_USERNAME_ERROR_MESSAGE);
+	    }  else if (username.trim().length() < 3) {
+	        errors.add(SHORT_USERNAME_ERROR_MESSAGE);
+	    }  else if (username.trim().length() > 64) {
+	        errors.add(LONG_USERNAME_ERROR_MESSAGE);
 	    }
-	    if (username.trim().length() < 3) {
-	    	throw new InvalidShortUsernameException();
-	    }
-	    if (username.trim().length() > 64) {
-	    	throw new InvalidLongUsernameException();
+	    if(errors.size() > 0) {
+	        throw new InvalidUserCreationParametersException(errors);
 	    }
 	  }
 

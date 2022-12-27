@@ -7,9 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-import com.pomazzila.core.entities.user.exceptions.InvalidLongUsernameException;
-import com.pomazzila.core.entities.user.exceptions.InvalidNullUsernameException;
-import com.pomazzila.core.entities.user.exceptions.InvalidShortUsernameException;
+import com.pomazzila.core.entities.user.exceptions.InvalidUserCreationParametersException;
 
 public class UserTest {
 	@Test
@@ -30,35 +28,53 @@ public class UserTest {
 	}
 	
 	@Test
-	void givenInvalidNullUsername_whenCallNewUser_thenSholdThrowInvalidUsernameNullException() {
+	void givenInvalidNullUsername_whenCallNewUserAndValidate_thenSholdThrowInvalidUserCreationParametersExceptionWithCorrectMessage() {
 		String username = null;
 		String email = "pocmazzila@gmail.com";
 		String password = "password";
+		String expectedErrorMessage = "Username should not be null";
 		
 		User newUser = User.newUser(username, email, password);
 		
-		assertThrows(InvalidNullUsernameException.class, () -> newUser.validate());
+		InvalidUserCreationParametersException exception = assertThrows(
+		        InvalidUserCreationParametersException.class, 
+		        () -> newUser.validate()
+		      );
+
+		assertEquals(expectedErrorMessage, exception.getMessage());
 	}
 	
 	@Test
-	void givenInvalidShortUsername_whenCallNewUser_thenSholdThrowInvalidShortUsernameException() {
+	void givenInvalidShortUsername_whenCallNewUserAndValidate_thenSholdThrowInvalidUserCreationParametersExceptionWithCorrectMessage() {
 		String username = " a ";
 		String email = "pocmazzila@gmail.com";
 		String password = "password";
+		String expectedErrorMessage = "Username should not be less than 3 characteres";
 		
 		User newUser = User.newUser(username, email, password);
 		
-		assertThrows(InvalidShortUsernameException.class, () -> newUser.validate());
+		InvalidUserCreationParametersException exception = assertThrows(
+                InvalidUserCreationParametersException.class, 
+                () -> newUser.validate()
+              );
+
+        assertEquals(expectedErrorMessage, exception.getMessage());
 	}
 	
 	@Test
-	void givenInvalidLongUsername_whenCallNewUser_thenSholdThrowInvalidLongUsernameException() {
+	void givenInvalidLongUsername_whenCallNewUserAndValidate_thenSholdThrowInvalidUserCreationParametersExceptionWithCorrectMessage() {
 		String username = "A really long name with lots of characters that just keep going on";
 		String email = "pocmazzila@gmail.com";
 		String password = "password";
-		
-		User newUser = User.newUser(username, email, password);
-		
-		assertThrows(InvalidLongUsernameException.class, () -> newUser.validate());
+		String expectedErrorMessage = "Username should not be longer than 64 characters";
+        
+        User newUser = User.newUser(username, email, password);
+        
+        InvalidUserCreationParametersException exception = assertThrows(
+                InvalidUserCreationParametersException.class, 
+                () -> newUser.validate()
+              );
+
+        assertEquals(expectedErrorMessage, exception.getMessage());
 	}
 }
