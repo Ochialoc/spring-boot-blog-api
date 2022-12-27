@@ -18,6 +18,9 @@ public class User {
 	private final String NULL_USERNAME_ERROR_MESSAGE = "Username should not be null";
 	private final String SHORT_USERNAME_ERROR_MESSAGE = "Username should not be less than 3 characteres long";
 	private final String LONG_USERNAME_ERROR_MESSAGE = "Username should not be longer than 64 characters long";
+	private final String NULL_PASSWORD_ERROR_MESSAGE = "Password should not be null";
+    private final String SHORT_PASSWORD_ERROR_MESSAGE = "Password should not be less than 6 characteres long";
+    private final String LONG_PASSWORD_ERROR_MESSAGE = "Password should not be longer than 64 characters long";
 	
 	private User(
             final UUID id,
@@ -52,6 +55,13 @@ public class User {
 	    }  else if (username.trim().length() > 64) {
 	        errors.add(LONG_USERNAME_ERROR_MESSAGE);
 	    }
+	    if (password == null) {
+            errors.add(NULL_PASSWORD_ERROR_MESSAGE);
+        }  else if (password.length() < 6) {
+            errors.add(SHORT_PASSWORD_ERROR_MESSAGE);
+        }  else if (password.length() > 64) {
+            errors.add(LONG_PASSWORD_ERROR_MESSAGE);
+        }
 	    if(errors.size() > 0) {
 	        throw new InvalidUserCreationParametersException(errors);
 	    }
