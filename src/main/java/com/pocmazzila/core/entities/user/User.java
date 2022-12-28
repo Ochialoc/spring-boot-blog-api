@@ -1,4 +1,4 @@
-package com.pomazzila.core.entities.user;
+package com.pocmazzila.core.entities.user;
 
 import java.time.Instant;
 import java.util.ArrayList;

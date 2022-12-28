@@ -1,4 +1,4 @@
-package com.pomazzila.core.entities.user;
+package com.pocmazzila.core.entities.user;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import com.pocmazzila.core.entities.user.User;
 import com.pocmazzila.core.entities.user.exceptions.InvalidUserCreationParametersException;
 
 public class UserTest {
