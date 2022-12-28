@@ -15,13 +15,17 @@ public class User {
 	private Instant updatedAt;
 	private Instant deletedAt;
 	
-	private final String NULL_USERNAME_ERROR_MESSAGE = "Username should not be null";
-	private final String SHORT_USERNAME_ERROR_MESSAGE = "Username should not be less than 3 characteres long";
-	private final String LONG_USERNAME_ERROR_MESSAGE = "Username should not be longer than 64 characters long";
-	private final String NULL_PASSWORD_ERROR_MESSAGE = "Password should not be null";
-    private final String SHORT_PASSWORD_ERROR_MESSAGE = "Password should not be less than 6 characteres long";
-    private final String LONG_PASSWORD_ERROR_MESSAGE = "Password should not be longer than 64 characters long";
-	
+	private final static String NULL_USERNAME_ERROR_MESSAGE = "Username should not be null";
+	private final static String SHORT_USERNAME_ERROR_MESSAGE = "Username should not be less than 3 characteres long";
+	private final static String LONG_USERNAME_ERROR_MESSAGE = "Username should not be longer than 64 characters long";
+	private final static String NULL_PASSWORD_ERROR_MESSAGE = "Password should not be null";
+    private final static String SHORT_PASSWORD_ERROR_MESSAGE = "Password should not be less than 6 characteres long";
+    private final static String LONG_PASSWORD_ERROR_MESSAGE = "Password should not be longer than 64 characters long";
+    private final static int MINIMUM_USERNAME_LENGTH = 3;
+    private final static int MAXIMUM_USERNAME_LENGTH = 64;
+    private final static int MINIMUM_PASSWORD_LENGTH = 6;
+    private final static int MAXIMUM_PASSWORD_LENGTH = 64;
+    
 	private User(
             final UUID id,
             final String username,
@@ -48,24 +52,34 @@ public class User {
 	
 	public void validate() {
 		ArrayList <String> errors = new ArrayList<String>();
-	    if (username == null) {
-	        errors.add(NULL_USERNAME_ERROR_MESSAGE);
-	    }  else if (username.trim().length() < 3) {
-	        errors.add(SHORT_USERNAME_ERROR_MESSAGE);
-	    }  else if (username.trim().length() > 64) {
-	        errors.add(LONG_USERNAME_ERROR_MESSAGE);
-	    }
-	    if (password == null) {
-            errors.add(NULL_PASSWORD_ERROR_MESSAGE);
-        }  else if (password.length() < 6) {
-            errors.add(SHORT_PASSWORD_ERROR_MESSAGE);
-        }  else if (password.length() > 64) {
-            errors.add(LONG_PASSWORD_ERROR_MESSAGE);
-        }
+		if (validateUsername(username) != null) errors.add(validateUsername(username));
+		if (validatePassword(password) != null) errors.add(validatePassword(password));
 	    if(errors.size() > 0) {
 	        throw new InvalidUserCreationParametersException(errors);
 	    }
 	  }
+	private static String validateUsername(final String username) {
+	    String error = null;
+	    if (username == null) {
+	        error = NULL_USERNAME_ERROR_MESSAGE;
+        }  else if (username.trim().length() < MINIMUM_USERNAME_LENGTH) {
+            error = SHORT_USERNAME_ERROR_MESSAGE;
+        }  else if (username.trim().length() > MAXIMUM_USERNAME_LENGTH) {
+            error = LONG_USERNAME_ERROR_MESSAGE;
+        }
+	    return error;
+	}
+	private static String validatePassword(final String password) {
+        String error = null;
+        if (password == null) {
+            error = NULL_PASSWORD_ERROR_MESSAGE;
+        }  else if (password.length() < MINIMUM_PASSWORD_LENGTH) {
+            error = SHORT_PASSWORD_ERROR_MESSAGE;
+        }  else if (password.length() > MAXIMUM_PASSWORD_LENGTH) {
+            error = LONG_PASSWORD_ERROR_MESSAGE;
+        }
+        return error;
+    }
 
 	public String getId() {
 		return id.toString().toLowerCase();
