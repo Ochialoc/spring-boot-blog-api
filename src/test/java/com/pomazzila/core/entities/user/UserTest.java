@@ -131,4 +131,55 @@ public class UserTest {
 
         assertEquals(expectedErrorMessage, exception.getMessage());
     }
+    
+    @Test
+    void givenInvalidNullEmail_whenCallNewUserAndValidate_thenSholdThrowInvalidUserCreationParametersExceptionWithCorrectMessage() {
+        String username = "pocmazzila";
+        String email = null;
+        String password = "password";
+        String expectedErrorMessage = "Email should not be null";
+        
+        User newUser = User.newUser(username, email, password);
+        
+        InvalidUserCreationParametersException exception = assertThrows(
+                InvalidUserCreationParametersException.class, 
+                () -> newUser.validate()
+              );
+
+        assertEquals(expectedErrorMessage, exception.getMessage());
+    }
+    
+    @Test
+    void givenInvalidShortEmail_whenCallNewUserAndValidate_thenSholdThrowInvalidUserCreationParametersExceptionWithCorrectMessage() {
+        String username = "pocmazzila";
+        String email = "po@co";
+        String password = "password";
+        String expectedErrorMessage = "Email should not be less than 6 characteres long";
+        
+        User newUser = User.newUser(username, email, password);
+        
+        InvalidUserCreationParametersException exception = assertThrows(
+                InvalidUserCreationParametersException.class, 
+                () -> newUser.validate()
+              );
+
+        assertEquals(expectedErrorMessage, exception.getMessage());
+    }
+    
+    @Test
+    void givenInvalidLongEmail_whenCallNewUserAndValidate_thenSholdThrowInvalidUserCreationParametersExceptionWithCorrectMessage() {
+        String username = "pocmazzila";
+        String email = "pocmazzilapocmazzilapocmazzilapocmazzilapocmazzilapocmazzilapocmazzilapocmazzilapocmazzilapocmazzilapocmazzilapocmazzil@gmail.com";
+        String password = "password";
+        String expectedErrorMessage = "Email should not be longer than 128 characters long";
+        
+        User newUser = User.newUser(username, email, password);
+        
+        InvalidUserCreationParametersException exception = assertThrows(
+                InvalidUserCreationParametersException.class, 
+                () -> newUser.validate()
+              );
+
+        assertEquals(expectedErrorMessage, exception.getMessage());
+    }
 }

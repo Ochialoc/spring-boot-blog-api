@@ -3,6 +3,7 @@ package com.pomazzila.core.entities.user;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import com.pomazzila.core.entities.user.exceptions.InvalidUserCreationParametersException;
 
@@ -15,16 +16,23 @@ public class User {
 	private Instant updatedAt;
 	private Instant deletedAt;
 	
-	private final static String NULL_USERNAME_ERROR_MESSAGE = "Username should not be null";
-	private final static String SHORT_USERNAME_ERROR_MESSAGE = "Username should not be less than 3 characteres long";
-	private final static String LONG_USERNAME_ERROR_MESSAGE = "Username should not be longer than 64 characters long";
-	private final static String NULL_PASSWORD_ERROR_MESSAGE = "Password should not be null";
-    private final static String SHORT_PASSWORD_ERROR_MESSAGE = "Password should not be less than 6 characteres long";
-    private final static String LONG_PASSWORD_ERROR_MESSAGE = "Password should not be longer than 64 characters long";
-    private final static int MINIMUM_USERNAME_LENGTH = 3;
+	private final static int MINIMUM_USERNAME_LENGTH = 3;
     private final static int MAXIMUM_USERNAME_LENGTH = 64;
     private final static int MINIMUM_PASSWORD_LENGTH = 6;
     private final static int MAXIMUM_PASSWORD_LENGTH = 64;
+    private final static int MINIMUM_EMAIL_LENGTH = 6;
+    private final static int MAXIMUM_EMAIL_LENGTH = 128;
+	
+	private final static String NULL_USERNAME_ERROR_MESSAGE = "Username should not be null";
+	private final static String SHORT_USERNAME_ERROR_MESSAGE = "Username should not be less than " + String.valueOf(MINIMUM_USERNAME_LENGTH) + " characteres long";
+	private final static String LONG_USERNAME_ERROR_MESSAGE = "Username should not be longer than " + String.valueOf(MAXIMUM_USERNAME_LENGTH) + " characters long";
+	private final static String NULL_PASSWORD_ERROR_MESSAGE = "Password should not be null";
+    private final static String SHORT_PASSWORD_ERROR_MESSAGE = "Password should not be less than " + String.valueOf(MINIMUM_PASSWORD_LENGTH) + " characteres long";
+    private final static String LONG_PASSWORD_ERROR_MESSAGE = "Password should not be longer than " + String.valueOf(MAXIMUM_PASSWORD_LENGTH) +" characters long";
+    private final static String NULL_EMAIL_ERROR_MESSAGE = "Email should not be null";
+    private final static String SHORT_EMAIL_ERROR_MESSAGE = "Email should not be less than " + String.valueOf(MINIMUM_EMAIL_LENGTH) + " characteres long";
+    private final static String LONG_EMAIL_ERROR_MESSAGE = "Email should not be longer than " + String.valueOf(MAXIMUM_EMAIL_LENGTH) + " characters long";
+    
     
 	private User(
             final UUID id,
@@ -59,6 +67,9 @@ public class User {
 		String passwordError = validatePassword(password);
 		if (passwordError != null) errors.add(passwordError);
 		
+		String emailError = validateEmail(email);
+        if (emailError != null) errors.add(emailError);
+		
 	    if(errors.size() > 0) {
 	        throw new InvalidUserCreationParametersException(errors);
 	    }
@@ -85,6 +96,23 @@ public class User {
         }
         return error;
     }
+	private static String validateEmail(final String email) {
+        String error = null;
+        if (email == null) {
+            error = NULL_EMAIL_ERROR_MESSAGE;
+        }  else if (email.length() < MINIMUM_EMAIL_LENGTH) {
+            error = SHORT_EMAIL_ERROR_MESSAGE;
+        }  else if (email.length() > MAXIMUM_EMAIL_LENGTH) {
+            error = LONG_EMAIL_ERROR_MESSAGE;
+        }
+        return error;
+    }
+	
+	public static boolean isEmailValid (final String email) {
+	    final Pattern EMAIL_REGEX = Pattern.compile("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", Pattern.CASE_INSENSITIVE);
+	    return EMAIL_REGEX.matcher(email).matches();
+	    
+	}
 
 	public String getId() {
 		return id.toString().toLowerCase();
