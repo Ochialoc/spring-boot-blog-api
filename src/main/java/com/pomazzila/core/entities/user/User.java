@@ -32,6 +32,7 @@ public class User {
     private final static String NULL_EMAIL_ERROR_MESSAGE = "Email should not be null";
     private final static String SHORT_EMAIL_ERROR_MESSAGE = "Email should not be less than " + String.valueOf(MINIMUM_EMAIL_LENGTH) + " characteres long";
     private final static String LONG_EMAIL_ERROR_MESSAGE = "Email should not be longer than " + String.valueOf(MAXIMUM_EMAIL_LENGTH) + " characters long";
+    private final static String INVALID_EMAIL_ERROR_MESSAGE = "Email is invalid";
     
     
 	private User(
@@ -104,6 +105,8 @@ public class User {
             error = SHORT_EMAIL_ERROR_MESSAGE;
         }  else if (email.length() > MAXIMUM_EMAIL_LENGTH) {
             error = LONG_EMAIL_ERROR_MESSAGE;
+        } else if (!isEmailValid(email)) {
+            error = INVALID_EMAIL_ERROR_MESSAGE;
         }
         return error;
     }
