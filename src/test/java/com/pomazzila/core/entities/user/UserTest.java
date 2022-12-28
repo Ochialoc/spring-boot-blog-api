@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import com.pomazzila.core.entities.user.exceptions.InvalidUserCreationParametersException;
+import com.pocmazzila.core.entities.user.exceptions.InvalidUserCreationParametersException;
 
 public class UserTest {
 	@Test

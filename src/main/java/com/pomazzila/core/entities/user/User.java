@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-import com.pomazzila.core.entities.user.exceptions.InvalidUserCreationParametersException;
+import com.pocmazzila.core.entities.user.exceptions.InvalidUserCreationParametersException;
 
 public class User {
 	private UUID id;

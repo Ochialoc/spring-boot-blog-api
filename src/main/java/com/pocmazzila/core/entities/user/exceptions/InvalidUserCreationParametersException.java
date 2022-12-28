@@ -1,4 +1,4 @@
-package com.pomazzila.core.entities.user.exceptions;
+package com.pocmazzila.core.entities.user.exceptions;
 
 import java.util.ArrayList;
 
