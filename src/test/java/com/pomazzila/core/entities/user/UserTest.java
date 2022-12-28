@@ -1,5 +1,6 @@
 package com.pomazzila.core.entities.user;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -17,6 +18,8 @@ public class UserTest {
 		String password = "password";
 		
 		User newUser = User.newUser(username, email, password);
+		
+		assertDoesNotThrow(() -> newUser.validate());
 		
 		assertEquals(newUser.getUsername(), username);
 		assertEquals(newUser.getEmail(), email);
