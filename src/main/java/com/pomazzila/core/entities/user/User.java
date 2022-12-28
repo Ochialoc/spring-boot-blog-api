@@ -52,8 +52,13 @@ public class User {
 	
 	public void validate() {
 		ArrayList <String> errors = new ArrayList<String>();
-		if (validateUsername(username) != null) errors.add(validateUsername(username));
-		if (validatePassword(password) != null) errors.add(validatePassword(password));
+		
+		String usernameError = validateUsername(username);
+		if (usernameError != null) errors.add(usernameError);
+		
+		String passwordError = validatePassword(password);
+		if (passwordError != null) errors.add(passwordError);
+		
 	    if(errors.size() > 0) {
 	        throw new InvalidUserCreationParametersException(errors);
 	    }
